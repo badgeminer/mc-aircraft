@@ -1,4 +1,4 @@
--- Reactor Core View Graphics Element
+-- Radar View Graphics Element
 
 local util    = require("scada-common.util")
 
@@ -14,8 +14,6 @@ local function buildPx(char)
 end
 
 ---@class core_map_args
----@field reactor_l integer reactor length
----@field reactor_w integer reactor width
 ---@field parent graphics_element
 ---@field id? string element id
 ---@field x? integer 1 if omitted
@@ -180,34 +178,6 @@ local function core_map(args)
 
     -- Process the points
     processPoints(pointsT)
-
-
-
-
-    -- resize reactor dimensions
-    ---@param reactor_l integer reactor length (rendered in 2D top-down as width)
-    ---@param reactor_w integer reactor width (rendered in 2D top-down as height)
-    function e.resize(reactor_l, reactor_w)
-        -- enforce possible dimensions
-        if reactor_l > 18 then reactor_l = 18 elseif reactor_l < 3 then reactor_l = 3 end
-        if reactor_w > 18 then reactor_w = 18 elseif reactor_w < 3 then reactor_w = 3 end
-
-        -- update dimensions
-        core_l = reactor_l - 2
-        core_w = reactor_w - 2
-        shift_x = 8 - math.floor(core_l / 2)
-        shift_y = 8 - math.floor(core_w / 2)
-        start_x = 2 + shift_x
-        start_y = 2 + shift_y
-        inner_width = core_l
-        inner_height = core_w
-
-        e.window.clear()
-
-        -- re-draw
-        draw_frame()
-        e.on_update(e.value)
-    end
 
     -- redraw both frame and core
     function e.redraw()
